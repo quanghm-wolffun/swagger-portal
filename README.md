@@ -120,6 +120,21 @@ bun run validate
 bun run preview
 ```
 
+## CI/CD with GitHub Actions
+
+This repository includes a GitHub Actions workflow that automatically builds and deploys the API documentation to GitHub Pages whenever changes are pushed to the main branch.
+
+### How it works
+
+1. When changes are pushed to the `main` branch (specifically to files in the `docs` directory or related configuration files), the workflow is triggered
+2. The workflow:
+   - Sets up Go and Bun environments
+   - Installs dependencies
+   - Converts YAML to JSON
+   - Validates the specification
+   - Builds static HTML documentation
+   - Deploys to GitHub Pages
+   - 
 ## Troubleshooting
 
 ### JSON Parsing Errors
@@ -141,6 +156,14 @@ When running commands in PowerShell, you might see error messages if commands ar
 2. Use `bun run <script-name>` to execute npm scripts
 3. If encountering "Failed to parse API description" errors, try running the validation step first
 
+### GitHub Actions Issues
+
+If the GitHub Actions workflow fails, check:
+
+1. **Repository permissions**: Ensure the workflow has permission to write to the gh-pages branch
+2. **Build errors**: Check the workflow logs for specific errors
+3. **GitHub Pages configuration**: Ensure GitHub Pages is enabled in your repository settings and configured to use the gh-pages branch
+
 ### Redocly Community Edition Notice
 
 When using the community edition of Redocly, you'll see a notice:
@@ -158,3 +181,4 @@ This is normal and doesn't affect basic functionality. The free community editio
 3. Always validate your OpenAPI specification before previewing
 4. Preview locally to catch any issues before sharing
 5. Use version control to track changes to your API specification
+6. Let the CI/CD workflow handle the deployment process

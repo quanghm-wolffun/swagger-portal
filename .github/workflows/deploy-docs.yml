@@ -1,0 +1,50 @@
+name: Deploy API Documentation
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'docs/**'
+      - 'convert.go'
+      - 'package.json'
+      - '.github/workflows/deploy-docs.yml'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: |
+          go install github.com/mikefarah/yq/v4@latest
+          bun install
+
+      - name: Convert YAML to JSON
+        run: go run convert.go
+        
+      - name: Format files
+        run: bun run format
+        
+#      - name: Validate OpenAPI spec
+#        run: bun run validate
+        
+#      - name: Deploy to GitHub Pages
+#        uses: JamesIves/github-pages-deploy-action@v4
+#        with:
+#          folder: dist
+#          branch: gh-pages
