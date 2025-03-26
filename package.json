@@ -1,0 +1,16 @@
+{
+  "name": "api-spec",
+  "version": "1.0.0",
+  "description": "OpenAPI documentation tools",
+  "scripts": {
+    "convert": "go run convert.go",
+    "format": "bunx prettier --write ./docs/swagger.yaml ./docs/swagger.json",
+    "preview": "bunx @redocly/cli preview-docs ./docs/swagger.json",
+    "validate": "bunx @redocly/cli lint ./docs/swagger.json",
+    "update-docs": "bun run convert && bun run format && bun run validate && bun run preview"
+  },
+  "dependencies": {
+    "@redocly/cli": "^1.34.0",
+    "prettier": "^2.8.0"
+  }
+}
